@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Manager</title>
+</head>
+<style>
+    button {
+        background-color: lightgreen;
+        border: none;
+    }
+</style>
+<body>
+<!--form add-->
+<h3>Add Product</h3>
+<br>
+<div>
+    <input type="text" placeholder="New Product" id="name">
+    <button onclick="add()">Add</button>
+</div>
+<br>
+<!--form edit-->
+<div id="form-edit">
+</div>
+<!--Form hiển thị-->
+<h3>Display All Product</h3>
+<table>
+    <tr>
+        <td colspan="2"><h4>Product Name</h4></td>
+        <td><p id="quantity"></p></td>
+    </tr>
+    <tbody id="list">
+    </tbody>
+</table>
+</body>
+<script>
+    let listProduct = [];
+    display();
+
+    function add() {
+        let name = document.getElementById('name').value;
+        listProduct.push(name);
+        display();
+    }
+
+    function display() {
+        let html = ``;
+        for (let i = 0; i < listProduct.length; i++) {
+            html += `
+        <tr>
+            <td>${listProduct[i]}</td>
+            <td><button onclick="showFormEdit(${i})">Edit</button></td>
+            <td><button onclick="deleteProduct(${i})">Delete</button></td>
+        </tr>`
+        }
+        document.getElementById('list').innerHTML = html;
+        document.getElementById('quantity').innerHTML = listProduct.length + '';
+        document.getElementById('name').value = ``;
+    }
+
+    function deleteProduct(index) {
+        listProduct.splice(index, 1);
+        display();
+    }
+
+    function showFormEdit(index) {
+        document.getElementById('form-edit').innerHTML = `
+      <h3>Form edit</h3>
+      <input type="text" placeholder="Edit Product" id="name-edit">
+      <button onclick="edit(${index})">Save</button>`;
+        let name = listProduct[index];
+        document.getElementById('name-edit').value = name;
+    }
+
+    function edit(index) {
+        console.log("ok");
+        let nameEdit = document.getElementById('name-edit').value;
+        listProduct[index] = nameEdit;
+        document.getElementById('form-edit').innerHTML = ``;
+        display();
+    }
+
+</script>
+</html>
